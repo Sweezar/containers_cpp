@@ -11,11 +11,41 @@ namespace s21 {
 template <class T>
 class List {
  public:
+  class ListIterator
+  {
+      private:
+          using Node = typename List<T>::Node;
+          Node* cur_;
+
+      public:
+          ListIterator(Node* first) : cur_(first) {};
+
+          ListIterator& operator++(int); // n++
+          ListIterator& operator--(int);
+          ListIterator& operator++(); //++n
+          ListIterator& operator--();
+
+          bool operator!=(const ListIterator& it);
+          bool operator==(const ListIterator& it);
+
+          Node* get();
+          T operator*();
+  };
+
+  class ListConstIterator : public ListIterator
+  {
+    private:
+          using Node = typename List<T>::Node;
+
+      public:
+          ListConstIterator(const Node* first) : ListIterator(first) {};
+  };
+
   using value_type = T;
   using reference = T&;
   using const_reference = const T&;
-  // using iterator = ListIterator;
-  // using const_iterator = ListConstIterator;
+  using iterator = ListIterator;
+  using const_iterator = ListConstIterator;
   using size_type = std::size_t;
 
   List();
@@ -25,20 +55,20 @@ class List {
   List(List &&l);
   ~List();
 
-  // List& operator=(List &&l);
+  List& operator=(List &&l);
 
   const_reference front();
   const_reference back();
 
-  // iterator begin();
-  // iterator end();
+  iterator begin();
+  iterator end();
 
   bool empty();
   size_type size();
   size_type max_size();
 
   void clear() noexcept;
-  // iterator insert(iterator pos, const_reference value);
+  iterator insert(iterator pos, const_reference value);
   // void erase(iterator pos);
   void push_back(const_reference value);
   void pop_back();
@@ -64,38 +94,11 @@ class List {
 
   Node* head_ = nullptr;
   Node* tail_ = nullptr;
-  size_type size_;
+  size_type size_ = 0;
   size_type max_size_ = MAX_LIST_SIZE;
-
-  // class ListIterator
-  // {
-  //     public:
-  //         ListIterator(Node* first);
-
-  //         iterator& operator++(int); // n++
-  //         iterator& operator--(int);
-  //         iteratorT& operator++(); //++n
-  //         iterator& operator--();
-
-  //         bool operator!=(const_iterator& it);
-  //         bool operator==(const_iterator& it);
-
-  //         value_type* operator->();
-  //         value_type operator*();
-
-  //     private:
-  //         Node<value_type>* cur_;
-  // };
-
-  // class ListConstIterator
-  // {
-  //     public:
-
-  //     private:
-
-  // };
 };
-}  // namespace s21
+
+} // namespace s21
 
 #include "list.cc"
 
