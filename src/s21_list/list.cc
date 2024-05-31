@@ -1,29 +1,35 @@
 #include "list.h"
 #include <iostream>
+#include <cassert>
 
 namespace s21 {
 
 template <class T>
-inline List<T>::List() : size_(0) {};
+inline List<T>::List() {};
 
 template <class T>
-List<T>::List(size_type n) : size_(0), max_size_(n){}
+List<T>::List(size_type n) : max_size_(n){}
 
 template <class T>
-List<T>::List(std::initializer_list<value_type> const &items)
+List<T>::List(std::initializer_list<value_type> const &items) : size_(0)
 {
-    this->size_ = items.size();
-    // this->max_size_ = items.max_size();
-  // WIP
+    for (auto item : items)
+    {
+        this->push_back(item);
+    }
+    
 }
 
 template <class T>
 List<T>::List(const List &l)
 {
-    this->size_ = l.size();
-    this->max_size_ = l.max_size();
-    this.head_ = l.front();
-    this.tail_ = l.back();
+    if(l.head_) {
+        Node *cur = l.head_;
+        while(cur != nullptr) {
+            this->push_back(cur->data);
+            cur = cur->next;
+        }
+    }
 }
 
 template <class T>
@@ -31,8 +37,8 @@ List<T>::List(List &&l)
 {
     this->size_ = l.size();
     this->max_size_ = l.max_size();
-    this.head_ = l.front();
-    this.tail_ = l.back();
+    this->head_ = l.head_;
+    this->tail_ = l.tail_;
 
     l.size_ = 0;
     l.max_size_ = 0;
@@ -43,6 +49,14 @@ List<T>::List(List &&l)
 template <class T>
 inline List<T>::~List() {
   clear();
+}
+
+template <class T>
+List<T> &List<T>::operator=(List<T> &&l)
+{
+    for(auto it = l->begin(); it != l->end(); it++) {
+        this->push_back(it);
+    }
 }
 
 template <class T>
@@ -65,6 +79,18 @@ typename List<T>::const_reference List<T>::back()
     } else {
         return this->tail_->GetData();
     }
+}
+
+template <class T>
+typename List<T>::iterator List<T>::begin()
+{
+    return iterator(head_);
+}
+
+template <class T>
+typename List<T>::iterator List<T>::end()
+{
+    return iterator(nullptr);
 }
 
 template <class T>
@@ -96,6 +122,31 @@ inline void List<T>::clear() noexcept
 
     tail_ = nullptr;
   
+}
+
+template <class T>
+typename List<T>::iterator List<T>::insert(iterator pos, const_reference value)
+{
+    Node* cur = pos.get();   
+	
+    if (cur->prev == nullptr)
+    {
+        this->push_front(value);
+    }
+    else
+    {
+        Node* newNode = new Node(value);
+        newNode->next = cur;
+        newNode->prev = cur->prev;
+        cur->prev->next = newNode;
+        cur->prev = newNode;
+        this->size_++;
+    }
+	
+    --pos;
+    
+
+	return pos;
 }
 
 template <class T>
@@ -162,6 +213,64 @@ void List<T>::pop_front()
         delete node;
         --size_;
     }
+}
+
+template <class T>
+List<T>::ListIterator& List<T>::ListIterator::operator++(int)
+{
+   assert(cur_ != nullptr);
+   auto tmp = *this;
+   cur_ = cur_->next;
+   return tmp;
+}
+
+template <class T>
+List<T>::ListIterator& List<T>::ListIterator::operator--(int)
+{
+    assert(cur_ != nullptr);
+   auto tmp = *this;
+   cur_ = cur_->prev;
+   return tmp;
+}
+
+template <class T>
+List<T>::ListIterator &List<T>::ListIterator::operator++()
+{
+   assert(cur_ != nullptr);
+    cur_ = cur_->next;
+    return *this;
+}
+
+template <class T>
+List<T>::ListIterator &List<T>::ListIterator::operator--()
+{
+    assert(cur_ != nullptr);
+    cur_ = cur_->prev;
+    return *this;
+}
+
+template <class T>
+bool List<T>::ListIterator::operator!=(const ListIterator &it)
+{
+    return this->cur_ != it.cur_;
+}
+
+template <class T>
+bool List<T>::ListIterator::operator==(const ListIterator &it)
+{
+    return this->cur_ == it.cur_;
+}
+
+template <class T>
+List<T>::ListIterator::Node* List<T>::ListIterator::get()
+{
+    return cur_;
+}
+
+template <class T>
+T List<T>::ListIterator::operator*()
+{
+    return cur_->data;
 }
 
 }  // namespace s21
