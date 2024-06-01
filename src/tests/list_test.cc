@@ -227,16 +227,15 @@ TEST(TestList, Subtest_Pop_Front_2) {
 
 TEST(TestList, Subtest_Insert_1) {
   // Arrange
-  s21::List<int> a{1};
+  s21::List<int> a;
   s21::List<int>::iterator it = a.begin();
   int num = 14;
 
   // Act
   it = a.insert(it, num);
-    
 
   // Assert
-  ASSERT_EQ(a.size(), 2);
+  ASSERT_EQ(a.size(), 1);
   ASSERT_EQ(*it, num);
 }
 
@@ -250,11 +249,154 @@ TEST(TestList, Subtest_Insert_2) {
     ++it;
     ++it;
     it = a.insert(it, num);
-    
 
   // Assert
   ASSERT_EQ(a.size(), 4);
   ASSERT_EQ(*it, num);
+}
+
+TEST(TestList, Subtest_Insert_3) {
+  // Arrange
+  s21::List<int> a{4, 10, 20};
+  s21::List<int>::iterator it = a.begin();
+  int num = 14;
+
+  // Act
+    ++it;
+    it = a.insert(it, num);
+
+  // Assert
+  ASSERT_EQ(a.size(), 4);
+  ASSERT_EQ(*it, num);
+}
+
+TEST(TestList, Subtest_Erase_1) {
+  // Arrange
+  s21::List<int> a{4, 10, 20};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+    ++it;
+    ++it;
+    a.erase(it);
+
+  // Assert
+  ASSERT_EQ(a.size(), 2);
+  ASSERT_EQ(a.front(), 4);
+  ASSERT_EQ(a.back(), 10);
+}
+
+TEST(TestList, Subtest_Erase_2) {
+  // Arrange
+  s21::List<int> a{4, 10, 20};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  a.erase(it);
+
+  // Assert
+  ASSERT_EQ(a.size(), 2);
+  ASSERT_EQ(a.front(), 10);
+  ASSERT_EQ(a.back(), 20);
+}
+
+TEST(TestList, Subtest_Erase_3) {
+  // Arrange
+  s21::List<int> a{4};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  a.erase(it);
+
+  // Assert
+  ASSERT_TRUE(a.empty());
+  ASSERT_EQ(a.size(), 0);
+  ASSERT_EQ(a.front(), 0);
+  ASSERT_EQ(a.back(), 0);
+}
+
+TEST(TestList, Subtest_Swap_1) {
+  // Arrange
+  s21::List<int> a{4};
+  s21::List<int> b{1};
+
+  // Act
+  a.swap(b);
+
+  // Assert
+  ASSERT_EQ(a.size(), 1);
+  ASSERT_EQ(a.front(), 1);
+  ASSERT_EQ(b.size(), 1);
+  ASSERT_EQ(b.front(), 4);
+}
+
+TEST(TestList, Subtest_Swap_2) {
+  // Arrange
+  s21::List<int> a{4, 5, 6};
+  s21::List<int> b{1, 2, 3};
+
+  // Act
+  a.swap(b);
+
+  // Assert
+  ASSERT_EQ(a.size(), 3);
+  ASSERT_EQ(a.front(), 1);
+  ASSERT_EQ(a.back(), 3);
+  ASSERT_EQ(b.size(), 3);
+  ASSERT_EQ(b.front(), 4);
+  ASSERT_EQ(b.back(), 6);
+}
+
+TEST(TestList, Subtest_Swap_3) {
+  // Arrange
+  s21::List<int> a{4, 5, 6, 7};
+  s21::List<int> b{1, 2};
+
+  // Act
+  a.swap(b);
+
+  // Assert
+  ASSERT_EQ(a.size(), 2);
+  ASSERT_EQ(a.front(), 1);
+  ASSERT_EQ(a.back(), 2);
+  ASSERT_EQ(b.size(), 4);
+  ASSERT_EQ(b.front(), 4);
+  ASSERT_EQ(b.back(), 7);
+}
+
+TEST(TestList, Subtest_Swap_4) {
+  // Arrange
+  s21::List<int> a{4, 5, 6, 7};
+  s21::List<int> b;
+
+  // Act
+  a.swap(b);
+
+  // Assert
+  ASSERT_EQ(a.size(), 0);
+  ASSERT_EQ(a.front(), 0);
+  ASSERT_EQ(a.back(), 0);
+  ASSERT_EQ(b.size(), 4);
+  ASSERT_EQ(b.front(), 4);
+  ASSERT_EQ(b.back(), 7);
+}
+
+TEST(TestList, Subtest_Sort_4) {
+  // Arrange
+  s21::List<int> a{10, 4, 5, 8, 6, 7, 2};
+
+  // Act
+  a.sort();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(*it++, 2);
+  ASSERT_EQ(*it++, 4);
+  ASSERT_EQ(*it++, 5);
+  ASSERT_EQ(*it++, 6);
+  ASSERT_EQ(*it++, 7);
+  ASSERT_EQ(*it++, 8);
+  ASSERT_EQ(*it, 10);
 }
 
 int main(int argc, char **argv) {

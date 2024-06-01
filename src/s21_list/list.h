@@ -15,7 +15,7 @@ class List {
   {
       private:
           using Node = typename List<T>::Node;
-          Node* cur_;
+          Node* cur_ = nullptr;
 
       public:
           ListIterator(Node* first) : cur_(first) {};
@@ -69,17 +69,17 @@ class List {
 
   void clear() noexcept;
   iterator insert(iterator pos, const_reference value);
-  // void erase(iterator pos);
+  void erase(iterator pos);
   void push_back(const_reference value);
   void pop_back();
   void push_front(const_reference value);
   void pop_front();
-  // void swap(List& other);
-  // void merge(List& other);
+  void swap(List& other);
+  void merge(List& other);
   // void splice(const_iterator pos, List& other);
   // void reverse();
   // void unique();
-  // void sort();
+  void sort();
 
  private:
   struct Node

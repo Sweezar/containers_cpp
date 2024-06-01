@@ -129,24 +129,61 @@ typename List<T>::iterator List<T>::insert(iterator pos, const_reference value)
 {
     Node* cur = pos.get();   
 	
-    if (cur->prev == nullptr)
+    if(cur) 
     {
-        this->push_front(value);
+        if (cur->prev == nullptr)
+        {
+            this->push_front(value);
+            pos = ListIterator(head_);
+        }
+        else
+        {
+            Node* newNode = new Node(value);
+            newNode->next = cur;
+            newNode->prev = cur->prev;
+            cur->prev->next = newNode;
+            cur->prev = newNode;
+            this->size_++;
+        }
+        --pos;
     }
     else
     {
-        Node* newNode = new Node(value);
-        newNode->next = cur;
-        newNode->prev = cur->prev;
-        cur->prev->next = newNode;
-        cur->prev = newNode;
-        this->size_++;
+        this->push_back(value);
+        pos = ListIterator(head_);
     }
-	
-    --pos;
-    
 
 	return pos;
+}
+
+template <class T>
+void List<T>::erase(iterator pos)
+{
+    Node* cur = pos.get();   
+
+    if(cur)
+    {
+        if(cur->prev != nullptr)
+        {
+            cur->prev->next = cur->next;
+        }
+        else
+        {
+            head_ = cur->next;
+        }
+
+        if(cur->next != nullptr)
+        {
+            cur->next->prev = cur->prev;
+        }
+        else
+        {
+            tail_ = cur->prev;
+        }
+
+        delete cur;
+        --size_;
+    }
 }
 
 template <class T>
@@ -213,6 +250,27 @@ void List<T>::pop_front()
         delete node;
         --size_;
     }
+}
+
+template <class T>
+void List<T>::swap(List &other)
+{
+    std::swap(this->head_, other.head_);
+    std::swap(this->tail_, other.tail_);
+    std::swap(this->size_, other.size_);
+    std::swap(this->max_size_, other.max_size_);
+}
+
+template <class T>
+void List<T>::merge(List &other)
+{
+
+}
+
+template <class T>
+void List<T>::sort()
+{
+
 }
 
 template <class T>
