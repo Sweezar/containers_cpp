@@ -134,6 +134,7 @@ typename List<T>::iterator List<T>::insert(iterator pos, const_reference value)
         if (cur->prev == nullptr)
         {
             this->push_front(value);
+            pos = ListIterator(head_);
         }
         else
         {
