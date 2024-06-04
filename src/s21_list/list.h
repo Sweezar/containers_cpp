@@ -1,6 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include <iostream>
+#include <cassert>
 #include <cstddef>
 #include <initializer_list>
 #include <utility>
@@ -20,8 +22,8 @@ class List {
       public:
           ListIterator(Node* first) : cur_(first) {};
 
-          ListIterator& operator++(int); // n++
-          ListIterator& operator--(int);
+          ListIterator operator++(int); // n++
+          ListIterator operator--(int);
           ListIterator& operator++(); //++n
           ListIterator& operator--();
 
@@ -81,6 +83,7 @@ class List {
   // void unique();
   void sort();
 
+
  private:
   struct Node
   {
@@ -96,6 +99,11 @@ class List {
   Node* tail_ = nullptr;
   size_type size_ = 0;
   size_type max_size_ = MAX_LIST_SIZE;
+
+  void merge_sort(Node** head_ref);
+  void split_list(Node* source, Node** left, Node** right);
+  Node* sorted_merge(Node* first, Node* second);
+
 };
 
 } // namespace s21

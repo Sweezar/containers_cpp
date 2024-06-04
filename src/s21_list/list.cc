@@ -1,6 +1,4 @@
 #include "list.h"
-#include <iostream>
-#include <cassert>
 
 namespace s21 {
 
@@ -263,29 +261,99 @@ void List<T>::swap(List &other)
 template <class T>
 void List<T>::merge(List &other)
 {
-
+    this = sorted_merge(this, other);
 }
 
 template <class T>
 void List<T>::sort()
 {
-
+    this->merge_sort(&head_);
 }
 
 template <class T>
-List<T>::ListIterator& List<T>::ListIterator::operator++(int)
+void List<T>::merge_sort(Node **head_ref)
+{
+    Node* head = *head_ref;
+    Node* first;
+    Node* second;
+
+    if(head == nullptr || head->next == nullptr) 
+    {
+        return;
+    }
+
+    split_list(head, &first, &second);
+    merge_sort(&first);
+    merge_sort(&second);
+
+    *head_ref = sorted_merge(first, second);
+}
+
+template <class T>
+void List<T>::split_list(Node *source, Node **left, Node **right)
+{
+    Node* slow = source;
+    Node* fast = source->next;
+
+    while(fast) 
+    {
+        fast = fast->next;
+        if(fast)
+        {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+
+    *left = source;
+    slow->next->prev = nullptr;
+    *right = slow->next;
+    slow->next = nullptr;
+    
+}
+
+template <class T>
+typename List<T>::Node* List<T>::sorted_merge(Node *first, Node *second)
+{
+    Node* result = nullptr;
+
+    if(first == nullptr)
+    {
+        return second;
+    }
+    else if(second == nullptr)
+    {
+        return first;
+    }
+
+    if(first->data <= second->data)
+    {
+        result = first;
+        result->next = sorted_merge(first->next, second);
+    }
+    else
+    {
+        result = second;
+        result->next = sorted_merge(first, second->next);
+    }
+
+    return result;
+}
+
+template <class T>
+List<T>::ListIterator List<T>::ListIterator::operator++(int)
 {
    assert(cur_ != nullptr);
-   auto tmp = *this;
+   ListIterator tmp(*this);
    cur_ = cur_->next;
    return tmp;
 }
 
 template <class T>
-List<T>::ListIterator& List<T>::ListIterator::operator--(int)
+List<T>::ListIterator List<T>::ListIterator::operator--(int)
 {
     assert(cur_ != nullptr);
-   auto tmp = *this;
+   ListIterator tmp(*this);
    cur_ = cur_->prev;
    return tmp;
 }

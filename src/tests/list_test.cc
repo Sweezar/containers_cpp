@@ -381,7 +381,21 @@ TEST(TestList, Subtest_Swap_4) {
   ASSERT_EQ(b.back(), 7);
 }
 
-TEST(TestList, Subtest_Sort_4) {
+TEST(TestList, Subtest_Merge_1) {
+  // Arrange
+  s21::List<int> a{4, 5, 6, 7};
+  s21::List<int> b{1, 2 , 3};
+
+  // Act
+  a.merge(b);
+
+  // Assert
+  for(auto elem : a) {
+    std::cout << elem << std:: endl;
+  }
+}
+
+TEST(TestList, Subtest_Sort_1) {
   // Arrange
   s21::List<int> a{10, 4, 5, 8, 6, 7, 2};
 
@@ -397,6 +411,48 @@ TEST(TestList, Subtest_Sort_4) {
   ASSERT_EQ(*it++, 7);
   ASSERT_EQ(*it++, 8);
   ASSERT_EQ(*it, 10);
+}
+
+TEST(TestList, Subtest_Sort_2) {
+  // Arrange
+  s21::List<int> a{10, 4};
+
+  // Act
+  a.sort();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(*it++, 4);
+  ASSERT_EQ(*it, 10);
+}
+
+TEST(TestList, Subtest_Sort_3) {
+  // Arrange
+  s21::List<int> a{4};
+
+  // Act
+  a.sort();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(*it, 4);
+}
+
+TEST(TestList, Subtest_Sort_4) {
+  // Arrange
+  s21::List<int> a{2, 1, 2, 2, 1, 1};
+
+  // Act
+  a.sort();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 2);
+  ASSERT_EQ(*it++, 2);
+  ASSERT_EQ(*it, 2);
 }
 
 int main(int argc, char **argv) {
