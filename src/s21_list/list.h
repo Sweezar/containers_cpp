@@ -57,7 +57,7 @@ class List {
   List(List &&l);
   ~List();
 
-  List& operator=(List &&l);
+  List& operator=(List &l);
 
   const_reference front();
   const_reference back();

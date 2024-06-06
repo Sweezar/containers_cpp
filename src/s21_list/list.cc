@@ -50,11 +50,14 @@ inline List<T>::~List() {
 }
 
 template <class T>
-List<T> &List<T>::operator=(List<T> &&l)
+List<T>& List<T>::operator=(List<T> &l)
 {
-    for(auto it = l->begin(); it != l->end(); it++) {
-        this->push_back(it);
+    this->clear();
+    for(auto it = l.begin(); it != l.end(); it++) {
+        this->push_back(*it);
     }
+
+    return *this;
 }
 
 template <class T>
@@ -108,6 +111,7 @@ typename List<T>::size_type List<T>::max_size()
 {
     return this->max_size_;
 }
+
 template <class T>
 inline void List<T>::clear() noexcept
 {
@@ -118,8 +122,8 @@ inline void List<T>::clear() noexcept
       delete std::exchange(head_, head_->next);
     }
 
+    head_ = nullptr;
     tail_ = nullptr;
-  
 }
 
 template <class T>
@@ -262,7 +266,53 @@ void List<T>::swap(List &other)
 template <class T>
 void List<T>::merge(List &other)
 {
-    // this = sorted_merge(this, other);
+    if(other.empty()) 
+    {
+        return;
+    }
+    if(this->empty())
+    {
+        this->swap(other);
+        return;
+    }
+
+    iterator it_this = this->begin();
+    iterator it_other = other.begin();
+    
+    while(it_other != nullptr)
+    {
+        if(it_this == nullptr)
+        {
+            Node* tmp = it_other.get();
+            it_other = other.end();
+
+            tmp->prev = this->tail_;
+            this->tail_->next = tmp;
+            this->tail_ = other.tail_; 
+        }
+        else if(it_this.get()->data > it_other.get()->data)
+        {
+            Node* tmp = it_other.get();
+            ++it_other;
+
+            tmp->prev = it_this.get()->prev;
+            tmp->next = it_this.get();
+
+            if(it_this.get()->prev == nullptr)
+            {
+                this->head_ = tmp;
+            }
+        }
+        else
+        {
+            ++it_this;
+        }
+    }
+
+    this->size_ += other.size_;
+    other.head_ = nullptr;
+    other.tail_ = nullptr;
+    other.clear();
 }
 
 template <class T>
