@@ -80,12 +80,32 @@ TEST(TestList, Subtest_Constructor_6) {
   ASSERT_EQ(b.size(), 4);
 }
 
-TEST(TestList, Subtest_Assignment_Operator) {
+TEST(TestList, Subtest_Assignment_Operator_1) {
   // Arrange
   s21::List<int> a{1,2,3,4};
-  s21::List<int> b = a;
+  s21::List<int> b;
 
   // Act
+  b = a;
+
+  // Assert
+  ASSERT_FALSE(a.empty());
+  ASSERT_FALSE(b.empty());
+  ASSERT_EQ(a.front(), 1);
+  ASSERT_EQ(a.back(), 4);
+  ASSERT_EQ(a.size(), 4);
+  ASSERT_EQ(b.front(), 1);
+  ASSERT_EQ(b.back(), 4);
+  ASSERT_EQ(b.size(), 4);
+}
+
+TEST(TestList, Subtest_Assignment_Operator_2) {
+  // Arrange
+  s21::List<int> a{1,2,3,4};
+  s21::List<int> b{1};
+
+  // Act
+  b = a;
 
   // Assert
   ASSERT_FALSE(a.empty());
@@ -381,7 +401,134 @@ TEST(TestList, Subtest_Swap_4) {
   ASSERT_EQ(b.back(), 7);
 }
 
-TEST(TestList, Subtest_Sort_4) {
+TEST(TestList, Subtest_Merge_1) {
+  // Arrange
+  s21::List<int> a;
+  s21::List<int> b{1, 2 , 3};
+
+  // Act
+  a.merge(b);
+
+  // Assert
+  ASSERT_TRUE(b.empty());
+  ASSERT_EQ(a.front(), 1);
+  ASSERT_EQ(a.back(), 3);
+  ASSERT_EQ(a.size(), 3);
+}
+
+TEST(TestList, Subtest_Merge_2) {
+  // Arrange
+  s21::List<int> a{2 , 3, 6};
+  s21::List<int> b;
+
+  // Act
+  a.merge(b);
+
+  // Assert
+  ASSERT_TRUE(b.empty());
+  ASSERT_EQ(a.front(), 2);
+  ASSERT_EQ(a.back(), 6);
+  ASSERT_EQ(a.size(), 3);
+}
+
+TEST(TestList, Subtest_Merge_3) {
+  // Arrange
+  s21::List<int> a{1, 7};
+  s21::List<int> b{2 , 3, 6};
+
+  // Act
+  a.merge(b);
+
+  // Assert
+  ASSERT_TRUE(b.empty());
+  ASSERT_EQ(a.front(), 1);
+  ASSERT_EQ(a.back(), 7);
+  ASSERT_EQ(a.size(), 5);
+}
+
+TEST(TestList, Subtest_Merge_4) {
+  // Arrange
+  s21::List<int> a{2 , 3, 6};
+  s21::List<int> b{1, 4, 12};
+
+  // Act
+  a.merge(b);
+
+  // Assert
+  ASSERT_TRUE(b.empty());
+  ASSERT_EQ(a.front(), 1);
+  ASSERT_EQ(a.back(), 12);
+  ASSERT_EQ(a.size(), 6);
+}
+
+TEST(TestList, Subtest_Splice_1) {
+  // Arrange
+  s21::List<int> a{7, 8};
+  s21::List<int> b{2, 3, 4, 5};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  a.splice(it, b);
+
+  // Assert
+  ASSERT_EQ(a.front(), 2);
+  ASSERT_EQ(a.back(), 8);
+  ASSERT_EQ(a.size(), 6);
+  ASSERT_TRUE(b.empty());
+}
+
+TEST(TestList, Subtest_Splice_2) {
+  // Arrange
+  s21::List<int> a{7, 8};
+  s21::List<int> b{2, 3, 4, 5};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  it++;
+  a.splice(it, b);
+
+  // Assert
+  ASSERT_EQ(a.front(), 7);
+  ASSERT_EQ(a.back(), 8);
+  ASSERT_EQ(a.size(), 6);
+  ASSERT_TRUE(b.empty());
+}
+
+TEST(TestList, Subtest_Splice_3) {
+  // Arrange
+  s21::List<int> a{7};
+  s21::List<int> b{2, 3, 4, 5};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  it++;
+  a.splice(it, b);
+  
+  // Assert
+  ASSERT_EQ(a.front(), 7);
+  ASSERT_EQ(a.back(), 5);
+  ASSERT_EQ(a.size(), 5);
+  ASSERT_TRUE(b.empty());
+}
+
+TEST(TestList, Subtest_Splice_4) {
+  // Arrange
+  s21::List<int> a;
+  s21::List<int> b{2, 3, 4, 5};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  it++;
+  a.splice(it, b);
+  
+  // Assert
+  ASSERT_EQ(a.front(), 2);
+  ASSERT_EQ(a.back(), 5);
+  ASSERT_EQ(a.size(), 4);
+  ASSERT_TRUE(b.empty());
+}
+
+TEST(TestList, Subtest_Sort_1) {
   // Arrange
   s21::List<int> a{10, 4, 5, 8, 6, 7, 2};
 
@@ -397,6 +544,48 @@ TEST(TestList, Subtest_Sort_4) {
   ASSERT_EQ(*it++, 7);
   ASSERT_EQ(*it++, 8);
   ASSERT_EQ(*it, 10);
+}
+
+TEST(TestList, Subtest_Sort_2) {
+  // Arrange
+  s21::List<int> a{10, 4};
+
+  // Act
+  a.sort();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(*it++, 4);
+  ASSERT_EQ(*it, 10);
+}
+
+TEST(TestList, Subtest_Sort_3) {
+  // Arrange
+  s21::List<int> a{4};
+
+  // Act
+  a.sort();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(*it, 4);
+}
+
+TEST(TestList, Subtest_Sort_4) {
+  // Arrange
+  s21::List<int> a{2, 1, 2, 2, 1, 1};
+
+  // Act
+  a.sort();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 1);
+  ASSERT_EQ(*it++, 2);
+  ASSERT_EQ(*it++, 2);
+  ASSERT_EQ(*it, 2);
 }
 
 int main(int argc, char **argv) {

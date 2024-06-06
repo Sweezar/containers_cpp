@@ -1,6 +1,6 @@
 TARGET = s21_containers.a
-CC = gcc
-CFLAGS = -Wall -Werror -Wextra -std=c++20 -lstdc++
+CC = g++
+CFLAGS = -Wall -Werror -Wextra -std=c++17 -lstdc++
 TEST_FLAGS = -lgtest -pthread
 TEST_TARGET = testing_exe
 

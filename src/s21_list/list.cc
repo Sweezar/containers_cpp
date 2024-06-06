@@ -1,6 +1,4 @@
 #include "list.h"
-#include <iostream>
-#include <cassert>
 
 namespace s21 {
 
@@ -52,11 +50,14 @@ inline List<T>::~List() {
 }
 
 template <class T>
-List<T> &List<T>::operator=(List<T> &&l)
+List<T>& List<T>::operator=(List<T> &l)
 {
-    for(auto it = l->begin(); it != l->end(); it++) {
-        this->push_back(it);
+    this->clear();
+    for(auto it = l.begin(); it != l.end(); it++) {
+        this->push_back(*it);
     }
+
+    return *this;
 }
 
 template <class T>
@@ -110,6 +111,7 @@ typename List<T>::size_type List<T>::max_size()
 {
     return this->max_size_;
 }
+
 template <class T>
 inline void List<T>::clear() noexcept
 {
@@ -120,8 +122,8 @@ inline void List<T>::clear() noexcept
       delete std::exchange(head_, head_->next);
     }
 
+    head_ = nullptr;
     tail_ = nullptr;
-  
 }
 
 template <class T>
@@ -264,46 +266,211 @@ void List<T>::swap(List &other)
 template <class T>
 void List<T>::merge(List &other)
 {
+    if(other.empty()) 
+    {
+        return;
+    }
+    if(this->empty())
+    {
+        this->swap(other);
+        return;
+    }
 
+    iterator it_this = this->begin();
+    iterator it_other = other.begin();
+    
+    while(it_other != nullptr)
+    {
+        if(it_this == nullptr)
+        {
+            Node* tmp = it_other.get();
+            it_other = other.end();
+
+            tmp->prev = this->tail_;
+            this->tail_->next = tmp;
+            this->tail_ = other.tail_; 
+        }
+        else if(it_this.get()->data > it_other.get()->data)
+        {
+            Node* tmp = it_other.get();
+            ++it_other;
+
+            tmp->prev = it_this.get()->prev;
+            tmp->next = it_this.get();
+
+            if(it_this.get()->prev == nullptr)
+            {
+                this->head_ = tmp;
+            }
+        }
+        else
+        {
+            ++it_this;
+        }
+    }
+
+    this->size_ += other.size_;
+    other.head_ = nullptr;
+    other.tail_ = nullptr;
+    other.clear();
+}
+
+template <class T>
+void List<T>::splice(const_iterator pos, List &other)
+{
+    Node* cur = pos.get();   
+    
+    if(this->empty()) {
+        this->head_ = other.head_;
+        this->tail_ = other.tail_;
+    } 
+    else
+    {
+        if(cur) {
+            if(cur->prev)
+            {
+                cur->prev->next = other.head_;
+                other.head_->prev = cur->prev;
+                cur->prev = other.tail_;
+                other.tail_->next = cur;
+            }
+            else
+            {
+                other.tail_->next = cur;
+                this->head_ = other.head_;
+            }
+        }
+        else
+        {
+            other.head_->prev = this->tail_;
+            this->tail_->next = other.head_;
+            this->tail_ = other.tail_;
+        }
+    }
+
+    this->size_+= other.size_; 
+    other.size_ = 0;
+    other.head_ = nullptr;
+    other.tail_ = nullptr;
 }
 
 template <class T>
 void List<T>::sort()
 {
-
+    this->merge_sort(&head_);
 }
 
 template <class T>
-List<T>::ListIterator& List<T>::ListIterator::operator++(int)
+void List<T>::merge_sort(Node **head_ref)
 {
-   assert(cur_ != nullptr);
-   auto tmp = *this;
-   cur_ = cur_->next;
-   return tmp;
+    Node* head = *head_ref;
+    Node* first;
+    Node* second;
+
+    if(head == nullptr || head->next == nullptr) 
+    {
+        return;
+    }
+
+    split_list(head, &first, &second);
+    merge_sort(&first);
+    merge_sort(&second);
+
+    *head_ref = sorted_merge(first, second);
 }
 
 template <class T>
-List<T>::ListIterator& List<T>::ListIterator::operator--(int)
+void List<T>::split_list(Node *source, Node **left, Node **right)
 {
-    assert(cur_ != nullptr);
-   auto tmp = *this;
-   cur_ = cur_->prev;
-   return tmp;
+    Node* slow = source;
+    Node* fast = source->next;
+
+    while(fast) 
+    {
+        fast = fast->next;
+        if(fast)
+        {
+            slow = slow->next;
+            fast = fast->next;
+        }
+    }
+
+    *left = source;
+    slow->next->prev = nullptr;
+    *right = slow->next;
+    slow->next = nullptr;
+    
 }
 
 template <class T>
-List<T>::ListIterator &List<T>::ListIterator::operator++()
+typename List<T>::Node* List<T>::sorted_merge(Node *first, Node *second)
 {
-   assert(cur_ != nullptr);
+    Node* result = nullptr;
+
+    if(first == nullptr)
+    {
+        return second;
+    }
+    else if(second == nullptr)
+    {
+        return first;
+    }
+
+    if(first->data <= second->data)
+    {
+        result = first;
+        result->next = sorted_merge(first->next, second);
+    }
+    else
+    {
+        result = second;
+        result->next = sorted_merge(first, second->next);
+    }
+
+    return result;
+}
+
+template <class T>
+typename List<T>::ListIterator List<T>::ListIterator::operator++(int)
+{
+   ListIterator tmp(*this);
+   if(cur_ != nullptr)
+   {
     cur_ = cur_->next;
+   } 
+
+   return tmp;
+}
+
+template <class T>
+typename List<T>::ListIterator List<T>::ListIterator::operator--(int)
+{
+   ListIterator tmp(*this);
+   if(cur_ != nullptr)
+   {
+    cur_ = cur_->prev;
+   } 
+
+   return tmp;
+}
+
+template <class T>
+typename List<T>::ListIterator &List<T>::ListIterator::operator++()
+{
+   if(cur_ != nullptr)
+   {
+    cur_ = cur_->next;
+   }
     return *this;
 }
 
 template <class T>
-List<T>::ListIterator &List<T>::ListIterator::operator--()
+typename List<T>::ListIterator &List<T>::ListIterator::operator--()
 {
-    assert(cur_ != nullptr);
-    cur_ = cur_->prev;
+    if(cur_ != nullptr)
+    {   
+        cur_ = cur_->prev;
+    }
     return *this;
 }
 
@@ -320,15 +487,27 @@ bool List<T>::ListIterator::operator==(const ListIterator &it)
 }
 
 template <class T>
-List<T>::ListIterator::Node* List<T>::ListIterator::get()
+typename List<T>::ListIterator::Node* List<T>::ListIterator::get()
 {
     return cur_;
 }
 
 template <class T>
-T List<T>::ListIterator::operator*()
+typename List<T>::reference List<T>::ListIterator::operator*()
 {
     return cur_->data;
+}
+
+template <class T>
+List<T>::ListConstIterator::ListConstIterator() : ListIterator() {}
+
+template <class T>
+List<T>::ListConstIterator::ListConstIterator(const ListIterator& node_)
+    : ListIterator(node_) {}
+
+template <class T>
+typename List<T>::const_reference List<T>::ListConstIterator::operator*() const {
+  return ListIterator::operator*();
 }
 
 }  // namespace s21

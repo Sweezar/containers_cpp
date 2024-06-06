@@ -1,6 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include <iostream>
+#include <cassert>
 #include <cstddef>
 #include <initializer_list>
 #include <utility>
@@ -11,6 +13,10 @@ namespace s21 {
 template <class T>
 class List {
  public:
+    using value_type = T;
+  using reference = T&;
+  using const_reference = const T&;
+
   class ListIterator
   {
       private:
@@ -20,8 +26,8 @@ class List {
       public:
           ListIterator(Node* first) : cur_(first) {};
 
-          ListIterator& operator++(int); // n++
-          ListIterator& operator--(int);
+          ListIterator operator++(int); // n++
+          ListIterator operator--(int);
           ListIterator& operator++(); //++n
           ListIterator& operator--();
 
@@ -29,21 +35,17 @@ class List {
           bool operator==(const ListIterator& it);
 
           Node* get();
-          T operator*();
+          reference operator*();
   };
 
-  class ListConstIterator : public ListIterator
+  class ListConstIterator : public ListIterator 
   {
-    private:
-          using Node = typename List<T>::Node;
-
-      public:
-          ListConstIterator(const Node* first) : ListIterator(first) {};
+   public:
+    ListConstIterator();
+    ListConstIterator(const ListIterator &node_);
+    const_reference operator*() const;
   };
 
-  using value_type = T;
-  using reference = T&;
-  using const_reference = const T&;
   using iterator = ListIterator;
   using const_iterator = ListConstIterator;
   using size_type = std::size_t;
@@ -55,7 +57,7 @@ class List {
   List(List &&l);
   ~List();
 
-  List& operator=(List &&l);
+  List& operator=(List &l);
 
   const_reference front();
   const_reference back();
@@ -76,10 +78,11 @@ class List {
   void pop_front();
   void swap(List& other);
   void merge(List& other);
-  // void splice(const_iterator pos, List& other);
+  void splice(const_iterator pos, List& other);
   // void reverse();
   // void unique();
   void sort();
+
 
  private:
   struct Node
@@ -96,6 +99,11 @@ class List {
   Node* tail_ = nullptr;
   size_type size_ = 0;
   size_type max_size_ = MAX_LIST_SIZE;
+
+  void merge_sort(Node** head_ref);
+  void split_list(Node* source, Node** left, Node** right);
+  Node* sorted_merge(Node* first, Node* second);
+
 };
 
 } // namespace s21
