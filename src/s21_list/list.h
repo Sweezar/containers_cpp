@@ -13,6 +13,10 @@ namespace s21 {
 template <class T>
 class List {
  public:
+    using value_type = T;
+  using reference = T&;
+  using const_reference = const T&;
+
   class ListIterator
   {
       private:
@@ -31,21 +35,17 @@ class List {
           bool operator==(const ListIterator& it);
 
           Node* get();
-          T operator*();
+          reference operator*();
   };
 
-  class ListConstIterator : public ListIterator
+  class ListConstIterator : public ListIterator 
   {
-    private:
-          using Node = typename List<T>::Node;
-
-      public:
-          ListConstIterator(const Node* first) : ListIterator(first) {};
+   public:
+    ListConstIterator();
+    ListConstIterator(const ListIterator &node_);
+    const_reference operator*() const;
   };
 
-  using value_type = T;
-  using reference = T&;
-  using const_reference = const T&;
   using iterator = ListIterator;
   using const_iterator = ListConstIterator;
   using size_type = std::size_t;
@@ -78,7 +78,7 @@ class List {
   void pop_front();
   void swap(List& other);
   void merge(List& other);
-  // void splice(const_iterator pos, List& other);
+  void splice(const_iterator pos, List& other);
   // void reverse();
   // void unique();
   void sort();

@@ -381,18 +381,85 @@ TEST(TestList, Subtest_Swap_4) {
   ASSERT_EQ(b.back(), 7);
 }
 
-TEST(TestList, Subtest_Merge_1) {
+// TEST(TestList, Subtest_Merge_1) {
+//   // Arrange
+//   s21::List<int> a{4, 5, 6, 7};
+//   s21::List<int> b{1, 2 , 3};
+
+//   // Act
+//   a.merge(b);
+
+//   // Assert
+//   for(auto elem : a) {
+//     std::cout << elem << std:: endl;
+//   }
+// }
+
+TEST(TestList, Subtest_Splice_1) {
   // Arrange
-  s21::List<int> a{4, 5, 6, 7};
-  s21::List<int> b{1, 2 , 3};
+  s21::List<int> a{7, 8};
+  s21::List<int> b{2, 3, 4, 5};
+  s21::List<int>::iterator it = a.begin();
 
   // Act
-  a.merge(b);
+  a.splice(it, b);
 
   // Assert
-  for(auto elem : a) {
-    std::cout << elem << std:: endl;
-  }
+  ASSERT_EQ(a.front(), 2);
+  ASSERT_EQ(a.back(), 8);
+  ASSERT_EQ(a.size(), 6);
+  ASSERT_TRUE(b.empty());
+}
+
+TEST(TestList, Subtest_Splice_2) {
+  // Arrange
+  s21::List<int> a{7, 8};
+  s21::List<int> b{2, 3, 4, 5};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  it++;
+  a.splice(it, b);
+
+  // Assert
+  ASSERT_EQ(a.front(), 7);
+  ASSERT_EQ(a.back(), 8);
+  ASSERT_EQ(a.size(), 6);
+  ASSERT_TRUE(b.empty());
+}
+
+TEST(TestList, Subtest_Splice_3) {
+  // Arrange
+  s21::List<int> a{7};
+  s21::List<int> b{2, 3, 4, 5};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  it++;
+  a.splice(it, b);
+  
+  // Assert
+  ASSERT_EQ(a.front(), 7);
+  ASSERT_EQ(a.back(), 5);
+  ASSERT_EQ(a.size(), 5);
+  ASSERT_TRUE(b.empty());
+}
+
+TEST(TestList, Subtest_Splice_4) {
+  // Arrange
+  s21::List<int> a;
+  s21::List<int> b{2, 3, 4, 5};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  it++;
+  a.splice(it, b);
+  
+  // Assert
+  ASSERT_EQ(a.front(), 2);
+  ASSERT_EQ(a.back(), 5);
+  ASSERT_EQ(a.size(), 4);
+  ASSERT_TRUE(b.empty());
 }
 
 TEST(TestList, Subtest_Sort_1) {
