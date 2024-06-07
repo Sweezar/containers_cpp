@@ -362,7 +362,12 @@ void List<T>::splice(const_iterator pos, List &other)
 template <class T>
 void List<T>::reverse()
 {
-    
+    std::swap(head_, tail_);
+    for(iterator it = this->begin(); it != this->end(); ++it)
+    {
+        std::swap(it.get()->next, it.get()->prev);
+    }
+
 }
 
 template <class T>
