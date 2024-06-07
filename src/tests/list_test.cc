@@ -573,6 +573,55 @@ TEST(TestList, Subtest_Reverse_1) {
   ASSERT_EQ(a.size(), 4);
 }
 
+TEST(TestList, Subtest_Unique_1) {
+  // Arrange
+  s21::List<int> a{2, 3, 4, 5};
+
+  // Act
+  a.unique();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(a.front(), 2);
+  ASSERT_EQ(*++it, 3);
+  ASSERT_EQ(*++it, 4);
+  ASSERT_EQ(a.back(), 5);
+  ASSERT_EQ(a.size(), 4);
+}
+
+TEST(TestList, Subtest_Unique_2) {
+  // Arrange
+  s21::List<int> a{2, 3, 4, 2, 3, 4};
+
+  // Act
+  a.unique();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(a.front(), 2);
+  ASSERT_EQ(*++it, 3);
+  ASSERT_EQ(*++it, 4);
+  ASSERT_EQ(*++it, 2);
+  ASSERT_EQ(*++it, 3);
+  ASSERT_EQ(a.back(), 4);
+  ASSERT_EQ(a.size(), 6);
+}
+
+TEST(TestList, Subtest_Unique_3) {
+  // Arrange
+  s21::List<int> a{2, 2, 3, 3, 4, 4, 4};
+
+  // Act
+  a.unique();
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(a.front(), 2);
+  ASSERT_EQ(*++it, 3);
+  ASSERT_EQ(a.back(), 4);
+  ASSERT_EQ(a.size(), 3);
+}
+
 TEST(TestList, Subtest_Sort_1) {
   // Arrange
   s21::List<int> a{10, 4, 5, 8, 6, 7, 2};

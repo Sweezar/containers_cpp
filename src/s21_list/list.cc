@@ -371,6 +371,19 @@ void List<T>::reverse()
 }
 
 template <class T>
+void List<T>::unique()
+{
+    for(iterator it = this->begin(); it != this->end(); ++it)
+    {
+        if(it.get()->prev && *it == it.get()->prev->data)
+        {
+            iterator tmp_it = it;
+            this->erase(--tmp_it);
+        }
+    }
+}
+
+template <class T>
 void List<T>::sort()
 {
     this->merge_sort(&head_);

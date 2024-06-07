@@ -80,7 +80,7 @@ class List {
   void merge(List& other);
   void splice(const_iterator pos, List& other);
   void reverse();
-  // void unique();
+  void unique();
   void sort();
 
 
