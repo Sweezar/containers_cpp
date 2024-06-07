@@ -297,8 +297,13 @@ void List<T>::merge(List &other)
 
             tmp->prev = it_this.get()->prev;
             tmp->next = it_this.get();
+            if(it_this.get()->prev)
+            {
+                it_this.get()->prev->next = tmp;
+            }
+            it_this.get()->prev = tmp;
 
-            if(it_this.get()->prev == nullptr)
+            if(tmp->prev == nullptr)
             {
                 this->head_ = tmp;
             }
@@ -352,6 +357,12 @@ void List<T>::splice(const_iterator pos, List &other)
     other.size_ = 0;
     other.head_ = nullptr;
     other.tail_ = nullptr;
+}
+
+template <class T>
+void List<T>::reverse()
+{
+    
 }
 
 template <class T>

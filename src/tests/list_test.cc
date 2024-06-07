@@ -461,6 +461,35 @@ TEST(TestList, Subtest_Merge_4) {
   ASSERT_EQ(a.size(), 6);
 }
 
+TEST(TestList, Subtest_Merge_5) {
+  // Arrange
+  s21::List<int> a{5 , 6, 10};
+  s21::List<int> b{1, 4, 12};
+  // Act
+  a.merge(b);
+
+  // Assert
+  ASSERT_EQ(a.front(), 1);
+  ASSERT_EQ(a.back(), 12);
+  ASSERT_EQ(a.size(), 6);
+  ASSERT_TRUE(b.empty());
+}
+
+TEST(TestList, Subtest_Merge_6) {
+  // Arrange
+  s21::List<int> a{1, 4, 12};
+  s21::List<int> b{5 , 6, 10};
+
+  // Act
+  a.merge(b);
+
+  // Assert
+  ASSERT_EQ(a.front(), 1);
+  ASSERT_EQ(a.back(), 12);
+  ASSERT_EQ(a.size(), 6);
+  ASSERT_TRUE(b.empty());
+}
+
 TEST(TestList, Subtest_Splice_1) {
   // Arrange
   s21::List<int> a{7, 8};
