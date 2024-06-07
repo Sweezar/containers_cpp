@@ -1,10 +1,10 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include <iostream>
 #include <cassert>
 #include <cstddef>
 #include <initializer_list>
+#include <iostream>
 #include <utility>
 
 namespace s21 {
@@ -13,36 +13,34 @@ namespace s21 {
 template <class T>
 class List {
  public:
-    using value_type = T;
+  using value_type = T;
   using reference = T&;
   using const_reference = const T&;
 
-  class ListIterator
-  {
-      private:
-          using Node = typename List<T>::Node;
-          Node* cur_ = nullptr;
+  class ListIterator {
+   private:
+    using Node = typename List<T>::Node;
+    Node* cur_ = nullptr;
 
-      public:
-          ListIterator(Node* first) : cur_(first) {};
+   public:
+    ListIterator(Node* first) : cur_(first){};
 
-          ListIterator operator++(int); // n++
-          ListIterator operator--(int);
-          ListIterator& operator++(); //++n
-          ListIterator& operator--();
+    ListIterator operator++(int);  // n++
+    ListIterator operator--(int);
+    ListIterator& operator++();  //++n
+    ListIterator& operator--();
 
-          bool operator!=(const ListIterator& it);
-          bool operator==(const ListIterator& it);
+    bool operator!=(const ListIterator& it);
+    bool operator==(const ListIterator& it);
 
-          Node* get();
-          reference operator*();
+    Node* get();
+    reference operator*();
   };
 
-  class ListConstIterator : public ListIterator 
-  {
+  class ListConstIterator : public ListIterator {
    public:
     ListConstIterator();
-    ListConstIterator(const ListIterator &node_);
+    ListConstIterator(const ListIterator& node_);
     const_reference operator*() const;
   };
 
@@ -52,12 +50,12 @@ class List {
 
   List();
   List(size_type n);
-  List(std::initializer_list<value_type> const &items);
-  List(const List &l);
-  List(List &&l);
+  List(std::initializer_list<value_type> const& items);
+  List(const List& l);
+  List(List&& l);
   ~List();
 
-  List& operator=(List &l);
+  List& operator=(List& l);
 
   const_reference front();
   const_reference back();
@@ -83,30 +81,22 @@ class List {
   void unique();
   void sort();
 
-
  private:
-  struct Node
-  {
-        Node(value_type data) noexcept
-            : data(data) {};
-        const_reference& GetData() {return data;};
-        value_type data;
-        Node* next = nullptr;
-        Node* prev = nullptr;
+  struct Node {
+    Node(value_type data) noexcept : data(data){};
+    const_reference& GetData() { return data; };
+    value_type data;
+    Node* next = nullptr;
+    Node* prev = nullptr;
   };
 
   Node* head_ = nullptr;
   Node* tail_ = nullptr;
   size_type size_ = 0;
   size_type max_size_ = MAX_LIST_SIZE;
-
-  void merge_sort(Node** head_ref);
-  void split_list(Node* source, Node** left, Node** right);
-  Node* sorted_merge(Node* first, Node* second);
-
 };
 
-} // namespace s21
+}  // namespace s21
 
 #include "list.cc"
 

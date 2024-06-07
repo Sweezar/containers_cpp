@@ -18,7 +18,7 @@ leaks: clean
 	@$(CC) $(CFLAGS) tests/*.cc $(TEST_FLAGS) -o $(TEST_TARGET)
 	leaks --atExit -- ./$(TEST_TARGET)
 
-valgrind: clean
+valgrind: clean test
 	@CK_FORK=no valgrind --vgdb=no --leak-check=full \
 	--show-leak-kinds=all --track-origins=yes --log-file="valgrind.log" -v --verbose -q --quiet -s ./$(TEST_TARGET)
 

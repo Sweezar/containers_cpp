@@ -1,6 +1,8 @@
 #include "../s21_list/list.h"
-#include <list>
+
 #include <gtest/gtest.h>
+
+#include <list>
 
 TEST(TestList, Subtest_Constructor_1) {
   // Arrange
@@ -40,7 +42,7 @@ TEST(TestList, Subtest_Constructor_3) {
 
 TEST(TestList, Subtest_Constructor_4) {
   // Arrange
-  s21::List<int> a{1,2,3,4};
+  s21::List<int> a{1, 2, 3, 4};
 
   // Act
 
@@ -53,7 +55,7 @@ TEST(TestList, Subtest_Constructor_4) {
 
 TEST(TestList, Subtest_Constructor_5) {
   // Arrange
-  s21::List<int> a{1,2,3,4};
+  s21::List<int> a{1, 2, 3, 4};
   s21::List<int> b(a);
 
   // Act
@@ -67,7 +69,7 @@ TEST(TestList, Subtest_Constructor_5) {
 
 TEST(TestList, Subtest_Constructor_6) {
   // Arrange
-  s21::List<int> a{1,2,3,4};
+  s21::List<int> a{1, 2, 3, 4};
   s21::List<int> b(std::move(a));
 
   // Act
@@ -82,7 +84,7 @@ TEST(TestList, Subtest_Constructor_6) {
 
 TEST(TestList, Subtest_Assignment_Operator_1) {
   // Arrange
-  s21::List<int> a{1,2,3,4};
+  s21::List<int> a{1, 2, 3, 4};
   s21::List<int> b;
 
   // Act
@@ -101,7 +103,7 @@ TEST(TestList, Subtest_Assignment_Operator_1) {
 
 TEST(TestList, Subtest_Assignment_Operator_2) {
   // Arrange
-  s21::List<int> a{1,2,3,4};
+  s21::List<int> a{1, 2, 3, 4};
   s21::List<int> b{1};
 
   // Act
@@ -124,7 +126,7 @@ TEST(TestList, Subtest_Push_Back_1) {
   int num = 4;
 
   // Act
-    a.push_back(num);
+  a.push_back(num);
 
   // Assert
   ASSERT_EQ(a.front(), num);
@@ -140,8 +142,8 @@ TEST(TestList, Subtest_Push_Back_2) {
   int num2 = 10;
 
   // Act
-    a.push_back(num1);
-    a.push_back(num2);
+  a.push_back(num1);
+  a.push_back(num2);
 
   // Assert
   ASSERT_EQ(a.front(), num1);
@@ -155,7 +157,7 @@ TEST(TestList, Subtest_Push_Front_1) {
   int num = 4;
 
   // Act
-    a.push_front(num);
+  a.push_front(num);
 
   // Assert
   ASSERT_EQ(a.front(), num);
@@ -170,8 +172,8 @@ TEST(TestList, Subtest_Push_Front_2) {
   int num2 = 10;
 
   // Act
-    a.push_front(num1);
-    a.push_front(num2);
+  a.push_front(num1);
+  a.push_front(num2);
 
   // Assert
   ASSERT_EQ(a.front(), num2);
@@ -186,8 +188,8 @@ TEST(TestList, Subtest_Pop_Back_1) {
   int num = 4;
 
   // Act
-    a.push_back(num);
-    a.pop_back();
+  a.push_back(num);
+  a.pop_back();
 
   // Assert
   ASSERT_EQ(a.front(), 0);
@@ -202,9 +204,9 @@ TEST(TestList, Subtest_Pop_Back_2) {
   int num2 = 10;
 
   // Act
-    a.push_back(num1);
-    a.push_back(num2);
-    a.pop_back();
+  a.push_back(num1);
+  a.push_back(num2);
+  a.pop_back();
 
   // Assert
   ASSERT_EQ(a.front(), num1);
@@ -219,8 +221,8 @@ TEST(TestList, Subtest_Pop_Front_1) {
   int num = 4;
 
   // Act
-    a.push_back(num);
-    a.pop_front();
+  a.push_back(num);
+  a.pop_front();
 
   // Assert
   ASSERT_EQ(a.front(), 0);
@@ -235,9 +237,9 @@ TEST(TestList, Subtest_Pop_Front_2) {
   int num2 = 10;
 
   // Act
-    a.push_back(num1);
-    a.push_back(num2);
-    a.pop_front();
+  a.push_back(num1);
+  a.push_back(num2);
+  a.pop_front();
 
   // Assert
   ASSERT_EQ(a.front(), num2);
@@ -266,9 +268,9 @@ TEST(TestList, Subtest_Insert_2) {
   int num = 14;
 
   // Act
-    ++it;
-    ++it;
-    it = a.insert(it, num);
+  ++it;
+  ++it;
+  it = a.insert(it, num);
 
   // Assert
   ASSERT_EQ(a.size(), 4);
@@ -282,8 +284,8 @@ TEST(TestList, Subtest_Insert_3) {
   int num = 14;
 
   // Act
-    ++it;
-    it = a.insert(it, num);
+  ++it;
+  it = a.insert(it, num);
 
   // Assert
   ASSERT_EQ(a.size(), 4);
@@ -296,9 +298,9 @@ TEST(TestList, Subtest_Erase_1) {
   s21::List<int>::iterator it = a.begin();
 
   // Act
-    ++it;
-    ++it;
-    a.erase(it);
+  ++it;
+  ++it;
+  a.erase(it);
 
   // Assert
   ASSERT_EQ(a.size(), 2);
@@ -404,7 +406,7 @@ TEST(TestList, Subtest_Swap_4) {
 TEST(TestList, Subtest_Merge_1) {
   // Arrange
   s21::List<int> a;
-  s21::List<int> b{1, 2 , 3};
+  s21::List<int> b{1, 2, 3};
 
   // Act
   a.merge(b);
@@ -418,7 +420,7 @@ TEST(TestList, Subtest_Merge_1) {
 
 TEST(TestList, Subtest_Merge_2) {
   // Arrange
-  s21::List<int> a{2 , 3, 6};
+  s21::List<int> a{2, 3, 6};
   s21::List<int> b;
 
   // Act
@@ -434,7 +436,7 @@ TEST(TestList, Subtest_Merge_2) {
 TEST(TestList, Subtest_Merge_3) {
   // Arrange
   s21::List<int> a{1, 7};
-  s21::List<int> b{2 , 3, 6};
+  s21::List<int> b{2, 3, 6};
 
   // Act
   a.merge(b);
@@ -448,7 +450,7 @@ TEST(TestList, Subtest_Merge_3) {
 
 TEST(TestList, Subtest_Merge_4) {
   // Arrange
-  s21::List<int> a{2 , 3, 6};
+  s21::List<int> a{2, 3, 6};
   s21::List<int> b{1, 4, 12};
 
   // Act
@@ -463,7 +465,7 @@ TEST(TestList, Subtest_Merge_4) {
 
 TEST(TestList, Subtest_Merge_5) {
   // Arrange
-  s21::List<int> a{5 , 6, 10};
+  s21::List<int> a{5, 6, 10};
   s21::List<int> b{1, 4, 12};
   // Act
   a.merge(b);
@@ -478,7 +480,7 @@ TEST(TestList, Subtest_Merge_5) {
 TEST(TestList, Subtest_Merge_6) {
   // Arrange
   s21::List<int> a{1, 4, 12};
-  s21::List<int> b{5 , 6, 10};
+  s21::List<int> b{5, 6, 10};
 
   // Act
   a.merge(b);
@@ -532,7 +534,7 @@ TEST(TestList, Subtest_Splice_3) {
   // Act
   it++;
   a.splice(it, b);
-  
+
   // Assert
   ASSERT_EQ(a.front(), 7);
   ASSERT_EQ(a.back(), 5);
@@ -549,7 +551,7 @@ TEST(TestList, Subtest_Splice_4) {
   // Act
   it++;
   a.splice(it, b);
-  
+
   // Assert
   ASSERT_EQ(a.front(), 2);
   ASSERT_EQ(a.back(), 5);
