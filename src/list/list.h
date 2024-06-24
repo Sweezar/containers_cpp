@@ -1,6 +1,105 @@
-#include "list.h"
+#ifndef LIST_H
+#define LIST_H
+
+#include <cassert>
+#include <iostream>
 
 namespace s21 {
+#define MAX_LIST_SIZE 768614336404564650
+
+template <class T>
+class List {
+ public:
+  using value_type = T;
+  using reference = T &;
+  using const_reference = const T &;
+  using size_type = std::size_t;
+
+ private:
+  struct Node {
+    Node(value_type data) noexcept : data(data){};
+    const_reference &GetData() { return data; };
+    value_type data;
+    Node *next = nullptr;
+    Node *prev = nullptr;
+  };
+
+  Node *head_ = nullptr;
+  Node *tail_ = nullptr;
+  size_type size_ = 0;
+  size_type max_size_ = MAX_LIST_SIZE;
+
+ public:
+  class ListIterator {
+   private:
+    using Node = typename List<T>::Node;
+    Node *cur_ = nullptr;
+
+   public:
+    ListIterator(Node *first) : cur_(first){};
+
+    ListIterator operator++(int);  // n++
+    ListIterator operator--(int);
+    ListIterator &operator++();  //++n
+    ListIterator &operator--();
+
+    bool operator!=(const ListIterator &it);
+    bool operator==(const ListIterator &it);
+
+    Node *get();
+    reference operator*();
+  };
+
+  class ListConstIterator : public ListIterator {
+   public:
+    ListConstIterator();
+    ListConstIterator(const ListIterator &node_);
+    const_reference operator*() const;
+  };
+
+  using iterator = ListIterator;
+  using const_iterator = ListConstIterator;
+
+  List();
+  List(size_type n);
+  List(std::initializer_list<value_type> const &items);
+  List(const List &l);
+  List(List &&l);
+  ~List();
+
+  List &operator=(List &l);
+
+  const_reference front();
+  const_reference back();
+
+  iterator begin();
+  iterator end();
+
+  bool empty();
+  size_type size();
+  size_type max_size();
+
+  void clear() noexcept;
+  iterator insert(iterator pos, const_reference value);
+  void erase(iterator pos);
+  void push_back(const_reference value);
+  void pop_back();
+  void push_front(const_reference value);
+  void pop_front();
+  void swap(List &other);
+  void merge(List &other);
+  void splice(const_iterator pos, List &other);
+  void reverse();
+  void unique();
+  void sort();
+
+  template <class... Args>
+  iterator insert_many(const_iterator pos, Args &&...args);
+  template <class... Args>
+  void insert_many_back(Args &&...args);
+  template <class... Args>
+  void insert_many_front(Args &&...args);
+};
 
 template <class T>
 inline List<T>::List(){};
@@ -354,6 +453,29 @@ void List<T>::sort() {
 }
 
 template <class T>
+template <class... Args>
+typename List<T>::iterator List<T>::insert_many(const_iterator pos,
+                                                Args &&...args) {
+  (insert(pos, args), ...);
+  return pos;
+}
+
+template <class T>
+template <class... Args>
+void List<T>::insert_many_back(Args &&...args) {
+  (push_back(args), ...);
+}
+
+template <class T>
+template <class... Args>
+void List<T>::insert_many_front(Args &&...args) {
+  iterator it = begin();
+  (insert(it, args), ...);
+  it = nullptr;  // обнуление нужно для случая, когда в args нет элементов, так
+                 // как возникает неиспользуемая переменная
+}
+
+template <class T>
 typename List<T>::ListIterator List<T>::ListIterator::operator++(int) {
   ListIterator tmp(*this);
   if (cur_ != nullptr) {
@@ -423,3 +545,5 @@ typename List<T>::const_reference List<T>::ListConstIterator::operator*()
 }
 
 }  // namespace s21
+
+#endif

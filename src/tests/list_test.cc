@@ -1,10 +1,8 @@
-#include "../s21_list/list.h"
-
 #include <gtest/gtest.h>
 
-#include <list>
+#include "tests.h"
 
-TEST(TestList, Subtest_Constructor_1) {
+TEST(List, Subtest_Constructor_1) {
   // Arrange
   s21::List<int> a;
 
@@ -16,7 +14,7 @@ TEST(TestList, Subtest_Constructor_1) {
   ASSERT_EQ(a.max_size(), MAX_LIST_SIZE);
 }
 
-TEST(TestList, Subtest_Constructor_2) {
+TEST(List, Subtest_Constructor_2) {
   // Arrange
   s21::List<int> a(10);
 
@@ -28,7 +26,7 @@ TEST(TestList, Subtest_Constructor_2) {
   ASSERT_EQ(a.max_size(), 10);
 }
 
-TEST(TestList, Subtest_Constructor_3) {
+TEST(List, Subtest_Constructor_3) {
   // Arrange
   s21::List<double> a(10);
 
@@ -40,7 +38,7 @@ TEST(TestList, Subtest_Constructor_3) {
   ASSERT_EQ(a.max_size(), 10);
 }
 
-TEST(TestList, Subtest_Constructor_4) {
+TEST(List, Subtest_Constructor_4) {
   // Arrange
   s21::List<int> a{1, 2, 3, 4};
 
@@ -53,7 +51,7 @@ TEST(TestList, Subtest_Constructor_4) {
   ASSERT_EQ(a.size(), 4);
 }
 
-TEST(TestList, Subtest_Constructor_5) {
+TEST(List, Subtest_Constructor_5) {
   // Arrange
   s21::List<int> a{1, 2, 3, 4};
   s21::List<int> b(a);
@@ -67,7 +65,7 @@ TEST(TestList, Subtest_Constructor_5) {
   ASSERT_EQ(b.size(), 4);
 }
 
-TEST(TestList, Subtest_Constructor_6) {
+TEST(List, Subtest_Constructor_6) {
   // Arrange
   s21::List<int> a{1, 2, 3, 4};
   s21::List<int> b(std::move(a));
@@ -82,7 +80,7 @@ TEST(TestList, Subtest_Constructor_6) {
   ASSERT_EQ(b.size(), 4);
 }
 
-TEST(TestList, Subtest_Assignment_Operator_1) {
+TEST(List, Subtest_Assignment_Operator_1) {
   // Arrange
   s21::List<int> a{1, 2, 3, 4};
   s21::List<int> b;
@@ -101,7 +99,7 @@ TEST(TestList, Subtest_Assignment_Operator_1) {
   ASSERT_EQ(b.size(), 4);
 }
 
-TEST(TestList, Subtest_Assignment_Operator_2) {
+TEST(List, Subtest_Assignment_Operator_2) {
   // Arrange
   s21::List<int> a{1, 2, 3, 4};
   s21::List<int> b{1};
@@ -120,7 +118,7 @@ TEST(TestList, Subtest_Assignment_Operator_2) {
   ASSERT_EQ(b.size(), 4);
 }
 
-TEST(TestList, Subtest_Push_Back_1) {
+TEST(List, Subtest_Push_Back_1) {
   // Arrange
   s21::List<int> a;
   int num = 4;
@@ -135,7 +133,7 @@ TEST(TestList, Subtest_Push_Back_1) {
   ASSERT_FALSE(a.empty());
 }
 
-TEST(TestList, Subtest_Push_Back_2) {
+TEST(List, Subtest_Push_Back_2) {
   // Arrange
   s21::List<int> a;
   int num1 = 4;
@@ -151,7 +149,7 @@ TEST(TestList, Subtest_Push_Back_2) {
   ASSERT_EQ(a.size(), 2);
 }
 
-TEST(TestList, Subtest_Push_Front_1) {
+TEST(List, Subtest_Push_Front_1) {
   // Arrange
   s21::List<int> a;
   int num = 4;
@@ -165,7 +163,7 @@ TEST(TestList, Subtest_Push_Front_1) {
   ASSERT_EQ(a.size(), 1);
 }
 
-TEST(TestList, Subtest_Push_Front_2) {
+TEST(List, Subtest_Push_Front_2) {
   // Arrange
   s21::List<int> a;
   int num1 = 4;
@@ -181,10 +179,10 @@ TEST(TestList, Subtest_Push_Front_2) {
   ASSERT_EQ(a.size(), 2);
 }
 
-TEST(TestList, Subtest_Pop_Back_1) {
+TEST(List, Subtest_Pop_Back_1) {
   // Arrange
   s21::List<int> a;
-  std::list<int> b;
+  // std::list<int> b;
   int num = 4;
 
   // Act
@@ -197,7 +195,7 @@ TEST(TestList, Subtest_Pop_Back_1) {
   ASSERT_EQ(a.size(), 0);
 }
 
-TEST(TestList, Subtest_Pop_Back_2) {
+TEST(List, Subtest_Pop_Back_2) {
   // Arrange
   s21::List<int> a;
   int num1 = 4;
@@ -214,10 +212,10 @@ TEST(TestList, Subtest_Pop_Back_2) {
   ASSERT_EQ(a.size(), 1);
 }
 
-TEST(TestList, Subtest_Pop_Front_1) {
+TEST(List, Subtest_Pop_Front_1) {
   // Arrange
   s21::List<int> a;
-  std::list<int> b;
+  // std::list<int> b;
   int num = 4;
 
   // Act
@@ -230,7 +228,7 @@ TEST(TestList, Subtest_Pop_Front_1) {
   ASSERT_EQ(a.size(), 0);
 }
 
-TEST(TestList, Subtest_Pop_Front_2) {
+TEST(List, Subtest_Pop_Front_2) {
   // Arrange
   s21::List<int> a;
   int num1 = 4;
@@ -247,7 +245,7 @@ TEST(TestList, Subtest_Pop_Front_2) {
   ASSERT_EQ(a.size(), 1);
 }
 
-TEST(TestList, Subtest_Insert_1) {
+TEST(List, Subtest_Insert_1) {
   // Arrange
   s21::List<int> a;
   s21::List<int>::iterator it = a.begin();
@@ -261,7 +259,7 @@ TEST(TestList, Subtest_Insert_1) {
   ASSERT_EQ(*it, num);
 }
 
-TEST(TestList, Subtest_Insert_2) {
+TEST(List, Subtest_Insert_2) {
   // Arrange
   s21::List<int> a{4, 10, 20};
   s21::List<int>::iterator it = a.begin();
@@ -277,7 +275,7 @@ TEST(TestList, Subtest_Insert_2) {
   ASSERT_EQ(*it, num);
 }
 
-TEST(TestList, Subtest_Insert_3) {
+TEST(List, Subtest_Insert_3) {
   // Arrange
   s21::List<int> a{4, 10, 20};
   s21::List<int>::iterator it = a.begin();
@@ -292,7 +290,7 @@ TEST(TestList, Subtest_Insert_3) {
   ASSERT_EQ(*it, num);
 }
 
-TEST(TestList, Subtest_Erase_1) {
+TEST(List, Subtest_Erase_1) {
   // Arrange
   s21::List<int> a{4, 10, 20};
   s21::List<int>::iterator it = a.begin();
@@ -308,7 +306,7 @@ TEST(TestList, Subtest_Erase_1) {
   ASSERT_EQ(a.back(), 10);
 }
 
-TEST(TestList, Subtest_Erase_2) {
+TEST(List, Subtest_Erase_2) {
   // Arrange
   s21::List<int> a{4, 10, 20};
   s21::List<int>::iterator it = a.begin();
@@ -322,7 +320,7 @@ TEST(TestList, Subtest_Erase_2) {
   ASSERT_EQ(a.back(), 20);
 }
 
-TEST(TestList, Subtest_Erase_3) {
+TEST(List, Subtest_Erase_3) {
   // Arrange
   s21::List<int> a{4};
   s21::List<int>::iterator it = a.begin();
@@ -337,7 +335,7 @@ TEST(TestList, Subtest_Erase_3) {
   ASSERT_EQ(a.back(), 0);
 }
 
-TEST(TestList, Subtest_Swap_1) {
+TEST(List, Subtest_Swap_1) {
   // Arrange
   s21::List<int> a{4};
   s21::List<int> b{1};
@@ -352,7 +350,7 @@ TEST(TestList, Subtest_Swap_1) {
   ASSERT_EQ(b.front(), 4);
 }
 
-TEST(TestList, Subtest_Swap_2) {
+TEST(List, Subtest_Swap_2) {
   // Arrange
   s21::List<int> a{4, 5, 6};
   s21::List<int> b{1, 2, 3};
@@ -369,7 +367,7 @@ TEST(TestList, Subtest_Swap_2) {
   ASSERT_EQ(b.back(), 6);
 }
 
-TEST(TestList, Subtest_Swap_3) {
+TEST(List, Subtest_Swap_3) {
   // Arrange
   s21::List<int> a{4, 5, 6, 7};
   s21::List<int> b{1, 2};
@@ -386,7 +384,7 @@ TEST(TestList, Subtest_Swap_3) {
   ASSERT_EQ(b.back(), 7);
 }
 
-TEST(TestList, Subtest_Swap_4) {
+TEST(List, Subtest_Swap_4) {
   // Arrange
   s21::List<int> a{4, 5, 6, 7};
   s21::List<int> b;
@@ -403,7 +401,7 @@ TEST(TestList, Subtest_Swap_4) {
   ASSERT_EQ(b.back(), 7);
 }
 
-TEST(TestList, Subtest_Merge_1) {
+TEST(List, Subtest_Merge_1) {
   // Arrange
   s21::List<int> a;
   s21::List<int> b{1, 2, 3};
@@ -418,7 +416,7 @@ TEST(TestList, Subtest_Merge_1) {
   ASSERT_EQ(a.size(), 3);
 }
 
-TEST(TestList, Subtest_Merge_2) {
+TEST(List, Subtest_Merge_2) {
   // Arrange
   s21::List<int> a{2, 3, 6};
   s21::List<int> b;
@@ -433,7 +431,7 @@ TEST(TestList, Subtest_Merge_2) {
   ASSERT_EQ(a.size(), 3);
 }
 
-TEST(TestList, Subtest_Merge_3) {
+TEST(List, Subtest_Merge_3) {
   // Arrange
   s21::List<int> a{1, 7};
   s21::List<int> b{2, 3, 6};
@@ -448,7 +446,7 @@ TEST(TestList, Subtest_Merge_3) {
   ASSERT_EQ(a.size(), 5);
 }
 
-TEST(TestList, Subtest_Merge_4) {
+TEST(List, Subtest_Merge_4) {
   // Arrange
   s21::List<int> a{2, 3, 6};
   s21::List<int> b{1, 4, 12};
@@ -463,7 +461,7 @@ TEST(TestList, Subtest_Merge_4) {
   ASSERT_EQ(a.size(), 6);
 }
 
-TEST(TestList, Subtest_Merge_5) {
+TEST(List, Subtest_Merge_5) {
   // Arrange
   s21::List<int> a{5, 6, 10};
   s21::List<int> b{1, 4, 12};
@@ -477,7 +475,7 @@ TEST(TestList, Subtest_Merge_5) {
   ASSERT_TRUE(b.empty());
 }
 
-TEST(TestList, Subtest_Merge_6) {
+TEST(List, Subtest_Merge_6) {
   // Arrange
   s21::List<int> a{1, 4, 12};
   s21::List<int> b{5, 6, 10};
@@ -492,7 +490,7 @@ TEST(TestList, Subtest_Merge_6) {
   ASSERT_TRUE(b.empty());
 }
 
-TEST(TestList, Subtest_Splice_1) {
+TEST(List, Subtest_Splice_1) {
   // Arrange
   s21::List<int> a{7, 8};
   s21::List<int> b{2, 3, 4, 5};
@@ -508,7 +506,7 @@ TEST(TestList, Subtest_Splice_1) {
   ASSERT_TRUE(b.empty());
 }
 
-TEST(TestList, Subtest_Splice_2) {
+TEST(List, Subtest_Splice_2) {
   // Arrange
   s21::List<int> a{7, 8};
   s21::List<int> b{2, 3, 4, 5};
@@ -525,7 +523,7 @@ TEST(TestList, Subtest_Splice_2) {
   ASSERT_TRUE(b.empty());
 }
 
-TEST(TestList, Subtest_Splice_3) {
+TEST(List, Subtest_Splice_3) {
   // Arrange
   s21::List<int> a{7};
   s21::List<int> b{2, 3, 4, 5};
@@ -542,7 +540,7 @@ TEST(TestList, Subtest_Splice_3) {
   ASSERT_TRUE(b.empty());
 }
 
-TEST(TestList, Subtest_Splice_4) {
+TEST(List, Subtest_Splice_4) {
   // Arrange
   s21::List<int> a;
   s21::List<int> b{2, 3, 4, 5};
@@ -559,7 +557,7 @@ TEST(TestList, Subtest_Splice_4) {
   ASSERT_TRUE(b.empty());
 }
 
-TEST(TestList, Subtest_Reverse_1) {
+TEST(List, Subtest_Reverse_1) {
   // Arrange
   s21::List<int> a{2, 3, 4, 5};
 
@@ -575,7 +573,7 @@ TEST(TestList, Subtest_Reverse_1) {
   ASSERT_EQ(a.size(), 4);
 }
 
-TEST(TestList, Subtest_Unique_1) {
+TEST(List, Subtest_Unique_1) {
   // Arrange
   s21::List<int> a{2, 3, 4, 5};
 
@@ -591,7 +589,7 @@ TEST(TestList, Subtest_Unique_1) {
   ASSERT_EQ(a.size(), 4);
 }
 
-TEST(TestList, Subtest_Unique_2) {
+TEST(List, Subtest_Unique_2) {
   // Arrange
   s21::List<int> a{2, 3, 4, 2, 3, 4};
 
@@ -609,7 +607,7 @@ TEST(TestList, Subtest_Unique_2) {
   ASSERT_EQ(a.size(), 6);
 }
 
-TEST(TestList, Subtest_Unique_3) {
+TEST(List, Subtest_Unique_3) {
   // Arrange
   s21::List<int> a{2, 2, 3, 3, 4, 4, 4};
 
@@ -624,7 +622,7 @@ TEST(TestList, Subtest_Unique_3) {
   ASSERT_EQ(a.size(), 3);
 }
 
-TEST(TestList, Subtest_Sort_1) {
+TEST(List, Subtest_Sort_1) {
   // Arrange
   s21::List<int> a{10, 4, 5, 8, 6, 7, 2};
 
@@ -642,7 +640,7 @@ TEST(TestList, Subtest_Sort_1) {
   ASSERT_EQ(*it, 10);
 }
 
-TEST(TestList, Subtest_Sort_2) {
+TEST(List, Subtest_Sort_2) {
   // Arrange
   s21::List<int> a{10, 4};
 
@@ -655,7 +653,7 @@ TEST(TestList, Subtest_Sort_2) {
   ASSERT_EQ(*it, 10);
 }
 
-TEST(TestList, Subtest_Sort_3) {
+TEST(List, Subtest_Sort_3) {
   // Arrange
   s21::List<int> a{4};
 
@@ -667,7 +665,7 @@ TEST(TestList, Subtest_Sort_3) {
   ASSERT_EQ(*it, 4);
 }
 
-TEST(TestList, Subtest_Sort_4) {
+TEST(List, Subtest_Sort_4) {
   // Arrange
   s21::List<int> a{2, 1, 2, 2, 1, 1};
 
@@ -684,8 +682,128 @@ TEST(TestList, Subtest_Sort_4) {
   ASSERT_EQ(*it, 2);
 }
 
-int main(int argc, char **argv) {
-  ::testing::InitGoogleTest(&argc, argv);
+TEST(TestList, Subtest_Insert_Many_1) {
+  // Arrange
+  s21::List<int> a{2, 1, 2, 2, 1, 1};
+  s21::List<int>::iterator it = a.begin();
 
-  return RUN_ALL_TESTS();
+  // Act
+  ++it;
+  a.insert_many(it, 3, 4);
+
+  // Assert
+  ASSERT_EQ(*it, 1);
+  ASSERT_EQ(*--it, 4);
+  ASSERT_EQ(*--it, 3);
+  ASSERT_EQ(*--it, 2);
+}
+
+TEST(TestList, Subtest_Insert_Many_2) {
+  // Arrange
+  s21::List<int> a{2, 1, 2, 2, 1, 1};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  ++it;
+  a.insert_many(it, 3, 4, 8, 9);
+
+  // Assert
+  ASSERT_EQ(*it, 1);
+  ASSERT_EQ(*--it, 9);
+  ASSERT_EQ(*--it, 8);
+  ASSERT_EQ(*--it, 4);
+  ASSERT_EQ(*--it, 3);
+  ASSERT_EQ(*--it, 2);
+}
+
+TEST(TestList, Subtest_Insert_Many_3) {
+  // Arrange
+  s21::List<int> a{2, 1, 2, 2, 1, 1};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  a.insert_many(it);
+
+  // Assert
+  ASSERT_EQ(*it, 2);
+}
+
+TEST(TestList, Subtest_Insert_Many_Back_1) {
+  // Arrange
+  s21::List<int> a{1};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  a.insert_many_back(3, 4, 8, 9);
+
+  // Assert
+  ASSERT_EQ(*it, 1);
+  ASSERT_EQ(*++it, 3);
+  ASSERT_EQ(*++it, 4);
+  ASSERT_EQ(*++it, 8);
+  ASSERT_EQ(*++it, 9);
+}
+
+TEST(TestList, Subtest_Insert_Many_Back_2) {
+  // Arrange
+  s21::List<int> a{1};
+  s21::List<int>::iterator it = a.begin();
+
+  // Act
+  a.insert_many_back(3);
+
+  // Assert
+  ASSERT_EQ(*it, 1);
+  ASSERT_EQ(*++it, 3);
+}
+
+TEST(TestList, Subtest_Insert_Many_Back_3) {
+  // Arrange
+  s21::List<int> a{1};
+
+  // Act
+  a.insert_many_back();
+
+  // Assert
+  ASSERT_EQ(a.front(), 1);
+}
+
+TEST(TestList, Subtest_Insert_Many_Front_1) {
+  // Arrange
+  s21::List<int> a{1};
+
+  // Act
+  a.insert_many_front(9, 8, 4, 3);
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(*it, 9);
+  ASSERT_EQ(*++it, 8);
+  ASSERT_EQ(*++it, 4);
+  ASSERT_EQ(*++it, 3);
+  ASSERT_EQ(*++it, 1);
+}
+
+TEST(TestList, Subtest_Insert_Many_Front_2) {
+  // Arrange
+  s21::List<int> a{1};
+
+  // Act
+  a.insert_many_front(3);
+  s21::List<int>::iterator it = a.begin();
+
+  // Assert
+  ASSERT_EQ(*it, 3);
+  ASSERT_EQ(*++it, 1);
+}
+
+TEST(TestList, Subtest_Insert_Many_Front_3) {
+  // Arrange
+  s21::List<int> a{1};
+
+  // Act
+  a.insert_many_front();
+
+  // Assert
+  ASSERT_EQ(a.front(), 1);
 }
