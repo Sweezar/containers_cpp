@@ -2,7 +2,6 @@
 
 #include <iostream>
 
-#include "../headers/s21_multiset.h"
 #include "tests.h"
 
 TEST(Multiset, ConstructorDefaultMultiSet) {
